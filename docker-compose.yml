@@ -1,9 +1,54 @@
 version: "3.9"
 services:
+  reverse:
+    image: "nginx"
+    container_name: reverse
+    ports: 
+      - "443:443"
+      - "80:80"
+    volumes:
+      - /home/serveur/Hardening-Web/reverse/nginx.conf:/etc/nginx/nginx.conf
+      - /home/serveur/Hardening-Web/tls/fullchain.pem:/etc/letsencrypt/nacd.uno/fullchain.pem
+      - /home/serveur/Hardening-Web/tls/privkey.pem:/etc/letsencrypt/nacd.uno/privkey.pem
+    networks:
+      net:
+        ipv4_address: 10.0.0.5
   nginx-1:
     image: "nginx"
     container_name: nginx-1
-    ports: 
-        - "8080:80"
     volumes:
         - /home/serveur/Hardening-Web/nginx-1/index.html:/usr/share/nginx/html/index.html
+        - /home/serveur/Hardening-Web/nginx-1/nginx.conf:/etc/nginx/nginx.conf
+        - /home/serveur/Hardening-Web/partage/error.html:/usr/share/nginx/html/error.html
+
+    networks:
+      net:
+        ipv4_address: 10.0.0.10
+  nginx-2:
+    image: "nginx"
+    container_name: nginx-2
+    volumes:
+        - /home/serveur/Hardening-Web/nginx-2/index.html:/usr/share/nginx/html/index.html
+        - /home/serveur/Hardening-Web/nginx-2/nginx.conf:/etc/nginx/nginx.conf
+        - /home/serveur/Hardening-Web/partage/error.html:/usr/share/nginx/html/error.html
+
+    networks:
+      net:
+        ipv4_address: 10.0.0.20
+  nginx-3:
+    image: "nginx"
+    container_name: nginx-3
+    volumes:
+        - /home/serveur/Hardening-Web/nginx-3/index.html:/usr/share/nginx/html/index.html
+        - /home/serveur/Hardening-Web/nginx-3/nginx.conf:/etc/nginx/nginx.conf
+        - /home/serveur/Hardening-Web/partage/error.html:/usr/share/nginx/html/error.html
+
+    networks:
+      net:
+        ipv4_address: 10.0.0.30
+networks:
+  net:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.0.0.0/16
