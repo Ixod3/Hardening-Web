@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  nginx-1:
+    image: "nginx"
+    container_name: nginx-1
+    ports: 
+        - "8080:80"
+    volumes:
+        - /home/serveur/Hardening-Web/nginx-1/index.html:/usr/share/nginx/html/index.html
